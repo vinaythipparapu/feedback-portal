@@ -63,10 +63,4 @@ A full-stack web application where **students can submit anonymous feedback** to
 
 
 
-## 🤝 Author
 
-**Mounika Malineni**  
-
-📧 [mounikamalineni63@gmail.com](mailto:mounikamalineni63@gmail.com)  
-🔗 [GitHub Profile](https://github.com/mounikamalineni26)  
-🔗 [LinkedIn Profile](https://www.linkedin.com/in/mounikamalineni)
