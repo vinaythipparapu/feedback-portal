@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Feedback Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div>Admin Dashboard</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<h2>All Feedbacks</h2>
+<div>
+    <table id="feedbackTable">
+        <thead>
+        <tr>
+            <th>Feedback ID</th>
+            <th>Feedback</th>
+            <th>Submitted At</th>
+        </tr>
+        </thead>
+        <tbody id="feedbackBody">
+        <!-- Feedback rows will be dynamically loaded here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    loadFeedback();
+});
+
+function loadFeedback() {
+    fetch("/api/feedback/all") // relative path works because frontend & backend on same app
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to load feedback. Status: " + response.status);
+            return response.json();
+        })
+        .then(data => {
+            const feedbackBody = document.getElementById("feedbackBody");
+            feedbackBody.innerHTML = "";
+            data.forEach((item, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.message}</td>
+                    <td>${new Date(item.timestamp || item.submittedAt).toLocaleString([], {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    })}</td>
+                `;
+                feedbackBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Error loading feedback:", error);
+            alert("Failed to load feedback.");
+        });
+}
+function logout() {
+    window.location.href = "index.html";
+}
+</script>
+</body>
+</html>
